@@ -1,0 +1,43 @@
+<openerp>
+  <data>
+    <menuitem name="OHL" id="ohl.menu_root"/>
+
+    <record model="ir.ui.view" id="ohl.list_broker">
+      <field name="name">Broker</field>
+      <field name="model">ohl.broker</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="ohl.action_window_broker">
+      <field name="name">Broker</field>
+      <field name="res_model">ohl.broker</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Broker" id="ohl.menu_broker" parent="ohl.menu_root"/>
+    <menuitem name="List" id="ohl.menu_broker_list" parent="ohl.menu_broker" action="ohl.action_window_broker"/>
+
+    <record model="ir.ui.view" id="ohl.list_agent">
+      <field name="name">Agent</field>
+      <field name="model">ohl.agent</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="ohl.action_window_agent">
+      <field name="name">Agent</field>
+      <field name="res_model">ohl.agent</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Agent" id="ohl.menu_agent" parent="ohl.menu_root"/>
+    <menuitem name="List" id="ohl.menu_agent_list" parent="ohl.menu_agent" action="ohl.action_window_agent"/>
+  </data>
+</openerp>

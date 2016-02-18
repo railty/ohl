@@ -1,0 +1,53 @@
+<openerp>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="broker.list">
+      <field name="name">Broker list</field>
+      <field name="model">broker.broker</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="broker.action_window">
+      <field name="name">Broker window</field>
+      <field name="res_model">broker.broker</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="broker.action_window_agent">
+      <field name="name">Agent window</field>
+      <field name="res_model">broker.agent</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- server action to the one above -->
+    <record model="ir.actions.server" id="broker.action_server">
+      <field name="name">Broker server</field>
+      <field name="model_id" ref="model_broker_broker"/>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem name="Broker" id="broker.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="Menu Window 1" id="broker.menu_1" parent="broker.menu_root"/>
+    <menuitem name="Menu Server 2" id="broker.menu_2" parent="broker.menu_root"/>
+    <menuitem name="List" id="broker.menu_1_list" parent="broker.menu_1" action="broker.action_window"/>
+    <menuitem name="Server to list" id="broker" parent="broker.menu_2" action="broker.action_server"/>
+
+    <menuitem name="aaaa" id="broker.menu_3" parent="broker.menu_root"/>
+    <menuitem name="List" id="broker.menu_3_list" parent="broker.menu_3" action="broker.action_window_agent"/>
+
+  </data>
+</openerp>
