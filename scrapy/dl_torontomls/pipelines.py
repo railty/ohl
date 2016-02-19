@@ -6,9 +6,29 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import re
+from scrapy.conf import settings
 from scrapy import signals
 from scrapy.exporters import XmlItemExporter
 from scrapy.exporters import CsvItemExporter
+
+class BrokerExporter(CsvItemExporter):
+    def __init__(self, *args, **kwargs):
+        self.brokers = []
+        delimiter = settings.get('CSV_DELIMITER', ',')
+        kwargs['delimiter'] = delimiter
+        kwargs['export_empty_fields'] = False
+        kwargs['fields_to_export'] = ['broker_id', 'broker_name']
+        super(BrokerExporter, self).__init__(*args, **kwargs)
+
+    def serialize_field(self, field, name, value):
+        if name == 'broker_name':
+            if value in self.brokers:
+                return ''
+            else:
+                self.brokers.append(value)
+                return value
+
+        return value
 
 class CsvExportPipeline(object):
     def __init__(self):
@@ -23,18 +43,19 @@ class CsvExportPipeline(object):
 
     def spider_opened(self, spider):
         self.brokers_csv = open('brokers.csv', 'w')
-        self.exporter = CsvItemExporter(self.brokers_csv)
+        self.exporter = BrokerExporter(self.brokers_csv)
+        #self.exporter.fields_to_export = ['broker_name', 'agent_name']
         self.exporter.start_exporting()
 
     def spider_closed(self, spider):
-        brokers = set(self.brokers)
-        for broker in brokers:
-            self.exporter.export_item(broker)
+        #brokers = set(self.brokers)
         self.exporter.finish_exporting()
         self.brokers_csv.close()
 
     def process_item(self, item, spider):
-        self.brokers.append(item['broker_name'])
+        print "-------------------------_"
+        print item
+        self.exporter.export_item(item)
         return item
 
 

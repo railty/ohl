@@ -14,7 +14,7 @@ BOT_NAME = 'dl_torontomls'
 SPIDER_MODULES = ['dl_torontomls.spiders']
 NEWSPIDER_MODULE = 'dl_torontomls.spiders'
 
-
+CSV_DELIMITER = ','
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36"
 
